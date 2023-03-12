@@ -1,0 +1,17 @@
+{
+  "name": "console-connector",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ConsoleConnector.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.11.0"
+  },
+  "devDependencies": {
+    "discord.js": "^13.6.0"
+  }
+}
