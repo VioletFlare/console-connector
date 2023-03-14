@@ -3,12 +3,17 @@ const Server = require("./Server/Server.js");
 const Client = require("./Client/Client.js");
 
 class Instance {
-    constructor(ws, discordSessions) {
+    constructor(config, ws, discordSessions) {
+        this.config = config;
         this.ws = ws;
-        this.discordSessions = discordSessions;
         this.sessionCache = new SessionCache();
-        this.client = new Client(this.ws);
-        this.server = new Server(this.ws, this.discordSessions);
+        this.client = new Client(this.config, this.ws);
+
+        if (config.HAS_SERVER) {
+            this.discordSessions = discordSessions;
+            this.server = new Server(this.config, this.ws, this.discordSessions);
+        }
+        
     }
 
     init() {

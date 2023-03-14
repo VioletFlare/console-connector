@@ -19,10 +19,32 @@ class InstanceManager {
         this.ws.on(
             'error', () => this._handleError()
         );
+    }
 
-        this.ws.on(
-            'open', () => new Instance(this.ws, this.discordSessions).init()
-        );
+    get(route, data) {
+        return this.connection.then(connection => {
+            return connection.client.sendRequest(route, data);
+        })
+    }
+
+    on(route, action) {
+        return this.connection.then(connection => {
+            return connection.server.registerAction(route, action);
+        })
+    }
+
+    _setOpenEvent() {
+        this.connection = new Promise(resolve => {       
+            this.ws.on(
+                'open', () => {
+                    const connection = new Instance(this.config, this.ws, this.discordSessions);
+                    connection.init();
+                    resolve(connection);
+                } 
+            );
+        });
+
+        return this.connection;
     }
 
     _setup() {
@@ -37,6 +59,7 @@ class InstanceManager {
     init() {
         this._setup();
         this._setEvents();
+        return this._setOpenEvent();
     }   
 }
 

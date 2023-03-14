@@ -2,7 +2,8 @@ const RequestCreator = require("./RequestCreator.js");
 
 class Client {
 
-    constructor(ws) {
+    constructor(config, ws) {
+        this.config = config;
         this.ws = ws;
         this.requestCreator = new RequestCreator(this.cache);
     }

@@ -7,6 +7,10 @@ class Instance {
     constructor(guild) {
         this.guild = guild;
     }
+
+    init() {
+        ///
+    }
 }
 
 class Test {
@@ -18,13 +22,21 @@ class Test {
         });
 
         this.sessions = new Map();
-        this.consoleConnector = new ConsoleConnector(config, this.sessions);
+
+        this.consoleConnector = new ConsoleConnector({
+            CONSOLE_SERVICE_CONFIG: {
+                host: config.CONSOLE_SERVICE_CONFIG.host,
+                port: config.CONSOLE_SERVICE_CONFIG.port,
+            },
+            USER_AGENT: "Bot::ConsoleConnectorDev",
+            HAS_SERVER: true
+        }, this.sessions);
     }
 
     _initSessions() {
         if (!this.sessions.size) {
             for (const [guildId, guild] of this.client.guilds.cache.entries()) {
-                const instance = new Instance(guild, DAL);
+                const instance = new Instance(guild);
                 instance.init();
                 this.sessions.set(guildId, instance);
             }
@@ -32,7 +44,7 @@ class Test {
     }
 
     _initSession(guild) {
-        const instance = new Instance(guild, DAL);
+        const instance = new Instance(guild);
         instance.init();
         this.sessions.set(guild.id, instance);
     }
@@ -42,8 +54,37 @@ class Test {
             console.log(`Logged in as ${this.client.user.tag}, id ${this.client.user.id}!`);
             
             this._initSessions();
-            
-            this.consoleConnector.init(this.sessions);
+
+            this.consoleConnector.init();
+
+            this.consoleConnector.on('/guilds', () => {
+                const guilds = [];
+        
+                this.sessions.forEach(
+                    instance => {
+                        guilds.push({
+                            name: instance.guild.name,
+                            id: instance.guild.id
+                        })
+                    }
+                )
+                
+                const response = {
+                    guilds: guilds
+                }
+                
+                return response;
+            });
+
+            this.consoleConnector.get('/guilds').then(response => {
+                console.log('POPULATED ROUTE:')
+                console.log(response)
+            });
+
+            this.consoleConnector.get('/notexistingroute').then(response => {
+                console.log('NOT POPULATED ROUTE:')
+                console.log(response)
+            });
         });
 
         this.client.on(

@@ -2,35 +2,25 @@ class Controller {
 
     constructor(cache, sessions) {
         this.sessions = sessions;
+        this.routes = {};
     }
 
-    _getGuilds() {
-        const guilds = [];
-
-        this.sessions.forEach(
-            instance => {
-                guilds.push({
-                    name: instance.guild.name,
-                    id: instance.guild.id
-                })
-            }
-        )
-        
-        const response = {
-            guilds: guilds
-        }
-        
-        return response;
+    registerAction(route, action) {
+        this.routes[route] = action;
     }
 
     _getRouteData(route, data) {
         let response;
 
-        switch(route) {
-            case "/guilds":
-                response = this._getGuilds();
-            break;
-        }
+        response = new Promise(resolve => {
+            if (this.routes[route]) { 
+                resolve({
+                    data: this.routes[route].call()
+                });
+            } else {
+                resolve({});
+            }
+        });
 
         return response;
     }
@@ -38,7 +28,7 @@ class Controller {
     callRoute(route, data) {
         let response = {};
 
-        response.data = this._getRouteData(route, data);
+        response = this._getRouteData(route, data);
         
         return response;
     }

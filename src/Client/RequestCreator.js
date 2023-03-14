@@ -1,16 +1,14 @@
-const auxConfig = require("../../../AuxConfig.js");
-
 class RequestCreator {
 
     constructor(config) {
-        this.userAgent = auxConfig.USER_AGENT;
+        this.config = config;
     }
 
     createRequest(route, data = {}) {
         const request = {
             route: route,
             data: {
-                userAgent: this.userAgent,
+                userAgent: this.USER_AGENT,
                 ...data
             }
         }
