@@ -5,7 +5,7 @@ class Client {
     constructor(config, ws) {
         this.config = config;
         this.ws = ws;
-        this.requestCreator = new RequestCreator(this.cache);
+        this.requestCreator = new RequestCreator(this.config);
     }
 
     sendRequest(route, data = {}) {

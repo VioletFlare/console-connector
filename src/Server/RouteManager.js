@@ -1,4 +1,4 @@
-class Controller {
+class RouteManager {
 
     constructor(cache, sessions) {
         this.sessions = sessions;
@@ -35,4 +35,4 @@ class Controller {
 
 }
 
-module.exports = Controller;
+module.exports = RouteManager;

@@ -1,15 +1,15 @@
-const Controller = require("./Controller.js");
+const RouteManager = require("./RouteManager.js");
 
 class Server {
     constructor(config, ws, discordSessions) {
         this.config = config;
         this.ws = ws;
-        this.controller = new Controller(this.cache, discordSessions);
+        this.routeManager = new RouteManager(this.cache, discordSessions);
         this.userAgent = this.config.USER_AGENT;
     }
 
     registerAction(route, action) {
-        this.controller.registerAction(route, action);
+        this.routeManager.registerAction(route, action);
     }
 
     _enrichWithOverhead(response) {
@@ -32,7 +32,7 @@ class Server {
                     const route = json.route;
                     const data = json.data;
                     
-                    this.controller.callRoute(route, data).then((response) => {
+                    this.routeManager.callRoute(route, data).then((response) => {
                         response = this._enrichWithOverhead(response)
                         response.calledRoute = route;
     

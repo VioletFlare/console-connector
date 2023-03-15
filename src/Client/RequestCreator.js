@@ -8,7 +8,7 @@ class RequestCreator {
         const request = {
             route: route,
             data: {
-                userAgent: this.USER_AGENT,
+                userAgent: this.config.USER_AGENT,
                 ...data
             }
         }
