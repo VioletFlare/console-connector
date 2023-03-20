@@ -1,4 +1,4 @@
-const Instance = require('./Instance.js');
+const Session = require('./Session.js');
 const WebSocket = require('ws');
 
 class InstanceManager {
@@ -22,29 +22,29 @@ class InstanceManager {
     }
 
     get(route, data) {
-        return this.connection.then(connection => {
-            return connection.client.sendRequest(route, data);
+        return this.session.then(session => {
+            return session.client.sendRequest(route, data);
         })
     }
 
     on(route, action) {
-        return this.connection.then(connection => {
-            return connection.server.registerAction(route, action);
+        return this.session.then(session => {
+            return session.server.registerAction(route, action);
         })
     }
 
     _setOpenEvent() {
-        this.connection = new Promise(resolve => {       
+        this.session = new Promise(resolve => {       
             this.ws.on(
                 'open', () => {
-                    const connection = new Instance(this.config, this.ws, this.discordSessions);
-                    connection.init();
-                    resolve(connection);
+                    const session = new Session(this.config, this.ws, this.discordSessions);
+                    session.init();
+                    resolve(session);
                 } 
             );
         });
 
-        return this.connection;
+        return this.session;
     }
 
     _setup() {
