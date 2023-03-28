@@ -76,7 +76,7 @@ class Test {
                 return response;
             });
 
-            this.consoleConnector.get('/guilds').then(response => {
+            this.consoleConnector.get('/ping').then(response => {
                 console.log('POPULATED ROUTE:')
                 console.log(response)
             });
