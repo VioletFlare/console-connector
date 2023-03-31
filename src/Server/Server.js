@@ -34,7 +34,7 @@ class Server {
                     
                     this.routeManager.callRoute(route, data).then((response) => {
                         response = this._enrichWithOverhead(response)
-                        response.calledRoute = route;
+                        response.route = route;
     
                         const responseString = JSON.stringify(response);
                         this.ws.send(responseString);

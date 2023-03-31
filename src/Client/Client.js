@@ -17,7 +17,7 @@ class Client {
                 const isEmpty = Object.keys(response).length === 0;
     
                 if (!isEmpty) {
-                    const isResponse = response.calledRoute && route === response.calledRoute;
+                    const isResponse = response.route && route === response.route;
     
                     if (isResponse) {
                         this.ws.removeEventListener("message", _handler);
