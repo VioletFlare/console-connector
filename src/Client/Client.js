@@ -20,8 +20,7 @@ class Client {
                     const isResponse = response.route && route === response.route;
     
                     if (isResponse) {
-                        this.ws.removeEventListener("message", _handler);
-
+                        this.ws.off("message", _handler);
                         resolve(response);
                     }
                 }
