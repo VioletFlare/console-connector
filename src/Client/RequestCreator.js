@@ -7,8 +7,9 @@ class RequestCreator {
     createRequest(route, data = {}) {
         const request = {
             route: route,
+            userAgent: this.config.USER_AGENT,
+            type: "REQUEST",
             data: {
-                userAgent: this.config.USER_AGENT,
                 ...data
             }
         }

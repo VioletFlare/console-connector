@@ -14,6 +14,7 @@ class Server {
 
     _enrichWithOverhead(response) {
         response.userAgent = this.userAgent;
+        response.type = "RESPONSE";
 
         return response;
     }
@@ -26,7 +27,7 @@ class Server {
             const isEmpty = Object.keys(json).length === 0;
 
             if (!isEmpty) {
-                const isRequest = json.route;
+                const isRequest = json.route && json.type !== "RESPONSE";
 
                 if (isRequest) {
                     const route = json.route;
