@@ -15,7 +15,7 @@ class RouteManager {
         response = new Promise(resolve => {
             if (this.routes[route]) { 
                 resolve({
-                    data: this.routes[route].call()
+                    data: this.routes[route].call(null, data)
                 });
             } else {
                 resolve({});

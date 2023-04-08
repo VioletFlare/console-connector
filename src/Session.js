@@ -2,7 +2,7 @@ const SessionCache = require('./Common/SessionCache.js');
 const Server = require("./Server/Server.js");
 const Client = require("./Client/Client.js");
 
-class Instance {
+class Session {
     constructor(config, ws, discordSessions) {
         this.config = config;
         this.ws = ws;
@@ -23,4 +23,4 @@ class Instance {
     }
 }
 
-module.exports = Instance;
+module.exports = Session;

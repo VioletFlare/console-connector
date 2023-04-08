@@ -31,9 +31,8 @@ class Server {
 
                 if (isRequest) {
                     const route = json.route;
-                    const data = json.data;
                     
-                    this.routeManager.callRoute(route, data).then((response) => {
+                    this.routeManager.callRoute(route, json).then((response) => {
                         response = this._enrichWithOverhead(response)
                         response.route = route;
     
