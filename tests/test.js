@@ -87,7 +87,7 @@ class Test {
             });
 
             setTimeout(() => {
-                this.consoleConnector.get('/guilds-list', { connectTo: "Bot::ConsoleConnectorDev" }).then(response => {
+                this.consoleConnector.get('/guilds', { source: "Bot::ConsoleConnectorDev" }).then(response => {
                     console.log('GUILDS:')
                     console.log(response)
                 });

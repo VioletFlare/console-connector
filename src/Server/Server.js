@@ -35,6 +35,7 @@ class Server {
                     this.routeManager.callRoute(route, json).then((response) => {
                         response = this._enrichWithOverhead(response)
                         response.route = route;
+                        response.uuid = json.uuid;
     
                         const responseString = JSON.stringify(response);
                         this.ws.send(responseString);
