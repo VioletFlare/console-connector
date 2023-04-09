@@ -85,6 +85,13 @@ class Test {
                 console.log('NOT POPULATED ROUTE:')
                 console.log(response)
             });
+
+            setTimeout(() => {
+                this.consoleConnector.get('/guilds-list', { connectTo: "Bot::ConsoleConnectorDev" }).then(response => {
+                    console.log('GUILDS:')
+                    console.log(response)
+                });
+            }, 100)
         });
 
         this.client.on(

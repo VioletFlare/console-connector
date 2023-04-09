@@ -1,11 +1,21 @@
-const RequestCreator = require("./RequestCreator.js");
-
 class Client {
 
     constructor(config, ws) {
         this.config = config;
         this.ws = ws;
-        this.requestCreator = new RequestCreator(this.config);
+    }
+
+    createRequest(route, data = {}) {
+        const request = {
+            route: route,
+            userAgent: this.config.USER_AGENT,
+            type: "REQUEST",
+            data: {
+                ...data
+            }
+        }
+
+        return request;
     }
 
     sendRequest(route, data = {}) {
@@ -28,7 +38,7 @@ class Client {
 
             this.ws.on("message", _handler);
 
-            const request = this.requestCreator.createRequest(route, data);
+            const request = this.createRequest(route, data);
 
             this.ws.send(JSON.stringify(
                 request
