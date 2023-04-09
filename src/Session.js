@@ -17,8 +17,10 @@ class Session {
     }
 
     init() {
-        this.server.init();
-    
+        if (this.config.HAS_SERVER) {
+            this.server.init();
+        }
+        
         console.info("Connection established with Console Service!");
     }
 }
