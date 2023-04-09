@@ -7,20 +7,6 @@ class InstanceManager {
         this.discordSessions = discordSessions;
     }
 
-    _handleError() {
-        console.error("Connection failed to Console Service, retrying...");
-
-        setTimeout(
-            () => this.init(), 10000
-        );
-    }
-
-    _setEvents() {
-        this.ws.on(
-            'error', () => this._handleError()
-        );
-    }
-
     get(route, data) {
         return this.session.then(session => {
             return session.client.sendRequest(route, data);
@@ -34,13 +20,24 @@ class InstanceManager {
     }
 
     _setOpenEvent() {
-        this.session = new Promise(resolve => {       
+        this.session = new Promise((resolve, reject) => {       
             this.ws.on(
                 'open', () => {
                     const session = new Session(this.config, this.ws, this.discordSessions);
                     session.init();
                     resolve(session);
                 } 
+            );
+
+            this.ws.on(
+                'error', () => {
+                    console.error("Connection failed to Console Service, retrying...");
+                    setTimeout(
+                        () => {
+                            resolve(this.init())
+                        }, 10000
+                    );
+                }
             );
         });
 
@@ -58,7 +55,6 @@ class InstanceManager {
 
     init() {
         this._setup();
-        this._setEvents();
         return this._setOpenEvent();
     }   
 }

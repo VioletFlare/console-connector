@@ -55,43 +55,45 @@ class Test {
             
             this._initSessions();
 
-            this.consoleConnector.init();
-
-            this.consoleConnector.on('/guilds', () => {
-                const guilds = [];
-        
-                this.sessions.forEach(
-                    instance => {
-                        guilds.push({
-                            name: instance.guild.name,
-                            id: instance.guild.id
-                        })
+            this.consoleConnector.init().then(() => {
+                this.consoleConnector.on('/guilds', () => {
+                    const guilds = [];
+            
+                    this.sessions.forEach(
+                        instance => {
+                            guilds.push({
+                                name: instance.guild.name,
+                                id: instance.guild.id
+                            })
+                        }
+                    )
+                    
+                    const response = {
+                        guilds: guilds
                     }
-                )
-                
-                const response = {
-                    guilds: guilds
-                }
-                
-                return response;
-            });
-
-            this.consoleConnector.get('/ping').then(response => {
-                console.log('POPULATED ROUTE:')
-                console.log(response)
-            });
-
-            this.consoleConnector.get('/notexistingroute').then(response => {
-                console.log('NOT POPULATED ROUTE:')
-                console.log(response)
-            });
-
-            setTimeout(() => {
-                this.consoleConnector.get('/guilds', { source: "Bot::ConsoleConnectorDev" }).then(response => {
-                    console.log('GUILDS:')
+                    
+                    return response;
+                });
+    
+                this.consoleConnector.get('/ping').then(response => {
+                    console.log('POPULATED ROUTE:')
                     console.log(response)
                 });
-            }, 100)
+    
+                this.consoleConnector.get('/notexistingroute').then(response => {
+                    console.log('NOT POPULATED ROUTE:')
+                    console.log(response)
+                });
+    
+                setTimeout(() => {
+                    this.consoleConnector.get('/guilds', { source: "Bot::ConsoleConnectorDev" }).then(response => {
+                        console.log('GUILDS:')
+                        console.log(response)
+                    });
+                }, 100)
+            });
+
+
         });
 
         this.client.on(
